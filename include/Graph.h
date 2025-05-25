@@ -15,6 +15,7 @@ namespace Graph {
         T m_data;
         size_t m_id;
 
+        Vertex() : m_data(T()), m_id(0) {}
         Vertex(const T& data, const size_t id) :
             m_data(data),
             m_id(id) {
@@ -25,6 +26,7 @@ namespace Graph {
         size_t m_toId;
         size_t m_weight;
 
+        Edge() : m_fromId(0), m_toId(0), m_weight(0) {}
         Edge(const size_t from, const size_t to, const size_t weight) :
             m_fromId(from),
             m_toId(to),
@@ -60,7 +62,7 @@ namespace Graph {
 
         // Check if a vertex exists in the graph
         bool hasVertex(const size_t id) const {
-            return m_vertices.contains(id) != m_vertices.end();
+            return m_vertices.find(id) != m_vertices.end();
         }
 
         // Get all outgoing edges from a vertex
@@ -85,6 +87,14 @@ namespace Graph {
         // Get a count of vertices in the graph
         size_t getVertexCount() const {
             return m_vertices.size();
+        }
+
+        const T& getVertexData(const size_t id) const {
+            const auto it = m_vertices.find(id);
+            if (it == m_vertices.end()) {
+                throw std::runtime_error("Vertex not found!");
+            }
+            return it->second.m_data;
         }
 
         // Remove a vertex and all of its edges from the graph

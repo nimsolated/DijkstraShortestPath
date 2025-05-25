@@ -45,11 +45,21 @@ public:
             throw std::runtime_error("Stack is empty!");
         }
 
+        T data;
+
+        if (m_top == m_bottom) {
+            data = m_bottom->m_data;
+            delete m_bottom;
+            m_bottom = nullptr;
+            m_top = nullptr;
+            return data;
+        }
+
         Node<T>* curr = m_bottom;
         while (curr->m_next != m_top) {
             curr = curr->m_next;
         }
-        T data = m_top->m_data;
+        data = m_top->m_data;
         delete m_top;
         m_top = curr;
         m_top->m_next = nullptr;
